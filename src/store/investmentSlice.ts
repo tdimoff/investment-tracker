@@ -13,6 +13,9 @@ const initialState: InvestmentState = {
     portfolio: {
       items: [],
     },
+    activeClosed: {
+      items: [],
+    },
   },
   loading: false,
   error: null,
