@@ -1,10 +1,14 @@
 import { IInvestment } from "@/src/interfaces/IInvestment.interface";
-import { Paper, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { IPortfolio } from "@/src/interfaces/IInvestment.interface";
+import { IPortfolioItem } from "@/src/interfaces/IInvestment.interface";
 
-const Portfolio = ({ items }: IPortfolio) => {
+interface IPortfolioProps {
+  items: IPortfolioItem[];
+}
+
+const Portfolio = ({ items }: IPortfolioProps) => {
   const options = {
     chart: {
       type: "pie",
@@ -25,9 +29,9 @@ const Portfolio = ({ items }: IPortfolio) => {
   };
 
   return (
-    <div className="portfolio">
+    <Paper elevation={3} className="p-4">
       <HighchartsReact highcharts={Highcharts} options={options} />
-    </div>
+    </Paper>
   );
 };
 

@@ -1,6 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { fetchInvestments } from '../api/api';
-import { IInvestment } from '../interfaces/IInvestment.interface';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchInvestments, closeInvestment } from "../api/api";
+import {
+  IInvestment,
+  IInvestmentItem,
+} from "../interfaces/IInvestment.interface";
 
 interface InvestmentState {
   investments: IInvestment;
@@ -10,16 +13,17 @@ interface InvestmentState {
 
 const initialState: InvestmentState = {
   investments: {
-    portfolio: {
-      items: [],
-    },
+    investedValue: [],
+    portfolio: [],
+    activeClosed: [],
+    investments: [],
   },
   loading: false,
   error: null,
 };
 
 export const fetchInvestmentsThunk = createAsyncThunk(
-  'investments/fetchInvestments',
+  "investments/fetchInvestments",
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchInvestments();
@@ -31,8 +35,21 @@ export const fetchInvestmentsThunk = createAsyncThunk(
   }
 );
 
+export const closeInvestmentStatusThunk = createAsyncThunk(
+  "investments/toggleInvestmentStatus",
+  async (investment: IInvestmentItem, { rejectWithValue }) => {
+    try {
+      const response = await closeInvestment(investment);
+
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const investmentsSlice = createSlice({
-  name: 'investments',
+  name: "investments",
   initialState,
   reducers: {
     // addInvestment: (state, action: PayloadAction<any>) => {
@@ -49,6 +66,19 @@ export const investmentsSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchInvestmentsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(closeInvestmentStatusThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(closeInvestmentStatusThunk.fulfilled, (state, action) => {
+        state.investments.investments.find(
+          (investment) => investment.id === action.payload.id
+        )!.status = action.payload.status;
+        state.loading = false;
+      })
+      .addCase(closeInvestmentStatusThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

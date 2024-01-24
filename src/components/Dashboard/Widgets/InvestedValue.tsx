@@ -1,19 +1,14 @@
-import { Paper, Typography } from "@mui/material";
+import { IInvestedValueItem } from "@/src/interfaces/IInvestment.interface";
+import { Paper } from "@mui/material";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const InvestedValue = () => {
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ];
+interface IInvestedValueProps {
+  items: IInvestedValueItem[];
+}
+
+const InvestedValue = ({ items }: IInvestedValueProps) => {
+  const months = items.map((item) => item.period);
   const options = {
     chart: {
       type: "line",
@@ -33,18 +28,14 @@ const InvestedValue = () => {
     series: [
       {
         name: "Investment Value",
-        data: [100, 50, 300, 400, 60, 320, 700, 800, 900],
+        data: items.map((item) => item.value),
       },
     ],
   };
 
   return (
-    <Paper>
-      <Typography variant="h2">
-        Invested value:{" "}
-        {options.series[0].data.reduce((acc, curr) => acc + curr)}
-      </Typography>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+    <Paper elevation={3} className="p-4 w-full">
+      <HighchartsReact highcharts={Highcharts} options={options}/>
     </Paper>
   );
 };

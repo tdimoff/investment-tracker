@@ -3,30 +3,21 @@ import {
   Drawer,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   IconButton,
   Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import Link from 'next/link';
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "@/src/store";
-import { toggleTheme } from "../store/themeSlice";
+import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const SideNav = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const themeMode = useSelector((state: RootState) => state.theme.mode);
-  const dispatch = useDispatch<AppDispatch>();
 
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
-  };
-
-  const handleThemeToggle = () => {
-    dispatch(toggleTheme());
   };
 
   return (
@@ -36,38 +27,37 @@ const SideNav = () => {
         aria-label="open drawer"
         edge="start"
         onClick={handleDrawerToggle}
+        className="p-2"
       >
-        <MenuIcon />
+        <span className="p-4 dark:bg-slate-800">
+          <MenuIcon />
+        </span>
       </IconButton>
-
       <Drawer
         variant="temporary"
         open={isDrawerOpen}
         onClose={handleDrawerToggle}
       >
-        <div>
-          <List>
-            <ListItem>
-              <Link href="/investments">
-                <ListItemText primary="Investments" />
-              </Link>
-            </ListItem>
-            <ListItem>
-              <Link href="/settings">
-                <ListItemText primary="Settings" />
-              </Link>
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem onClick={handleThemeToggle}>
-              <ListItemIcon>
-                {themeMode === 'light' ? <LightModeIcon /> : <DarkModeIcon />}
-              </ListItemIcon>
-              <ListItemText primary="Toggle Theme" />
-            </ListItem>
-          </List>
-        </div>
+        <List>
+          <ListItem className="w-[15rem]">
+            <AttachMoneyIcon className="mr-2" />
+            <Link href="/investments">
+              <ListItemText primary="Investments" />
+            </Link>
+          </ListItem>
+          <ListItem className="w=[15rem]">
+            <SettingsIcon className="mr-2" />
+            <Link href="/settings">
+              <ListItemText primary="Settings" />
+            </Link>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem>
+            <ThemeToggle />
+          </ListItem>
+        </List>
       </Drawer>
     </div>
   );

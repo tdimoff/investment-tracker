@@ -3,11 +3,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import investmentReducer from "./store/investmentSlice";
 // import settingReducer from "./store/settingSlice";
 import themeReducer from "./store/themeSlice";
+import userReducer from "./store/userSlice";
 
 export const store = configureStore({
   reducer: {
     investments: investmentReducer,
-    theme: themeReducer
+    theme: themeReducer,
+    user: userReducer
   },
 });
 
