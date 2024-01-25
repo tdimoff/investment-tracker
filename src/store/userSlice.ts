@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@/src/store';
+import { updateUser, fetchUser } from '@/src/api/api';
+import { IUser } from '@/src/interfaces/IUser.interface';
 
 interface UserState {
   loading: boolean;
@@ -23,10 +25,29 @@ const initialState: UserState = {
   },
 };
 
+export const fetchUserDetailsThunk = createAsyncThunk(
+  'user/fetchUserDetails',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetchUser();
+
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const updateUserDetailsThunk = createAsyncThunk(
     'user/updateUserDetails',
-    async (details: UserState['details']) => {
-        return details;
+    async (user: IUser, { rejectWithValue }) => {
+      try {
+        const response = await updateUser(user);
+
+        return response.data;
+      } catch (err: any) {
+        return rejectWithValue(err.response.data);
+      }
     }
 );
 
@@ -36,6 +57,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(updateUserDetailsThunk.pending, (state) => {
+      console.log('submitting')
       state.loading = true;
     });
     builder.addCase(updateUserDetailsThunk.fulfilled, (state, action) => {
@@ -44,11 +66,18 @@ export const userSlice = createSlice({
     builder.addCase(updateUserDetailsThunk.rejected, (state, action) => {
       state.loading = false;
     });
+    builder.addCase(fetchUserDetailsThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchUserDetailsThunk.fulfilled, (state, action) => {
+      state.details = action.payload;
+    });
+    builder.addCase(fetchUserDetailsThunk.rejected, (state) => {
+      state.loading = false;
+    });
   },
 });
 
-// Other logic such as selectors can be exported here
 export const selectUserDetails = (state: RootState) => state.user.details;
 
-// Export the reducer, to be used in the store
 export default userSlice.reducer;

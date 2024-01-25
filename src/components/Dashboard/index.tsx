@@ -1,24 +1,49 @@
 import { Paper, Typography, Grid } from "@mui/material";
 import { IInvestment } from "@/src/interfaces/IInvestment.interface";
-import InvestedValue from "./InvestedValue";
-import Portfolio from "./Portfolio";
-import ActiveClosed from "./ActiveClosed";
+import InvestedValue from "./Widgets/InvestedValue";
+import Portfolio from "./Widgets/Portfolio";
+import ActiveClosed from "./Widgets/ActiveClosed";
+import InvestmentCard from "./Widgets/InvestmentCard";
+import { AppDispatch } from "@/src/store";
+import { useDispatch } from "react-redux";
+import { closeInvestmentStatusThunk } from "@/src/store/investmentSlice";
 
 interface IDashboardProps {
   data: IInvestment;
 }
 
+
 const Dashboard = ({ data }: IDashboardProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const handleCloseInvestment = (id: number) => {
+    dispatch(closeInvestmentStatusThunk(id));
+  }
+
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={4} lg={3} className="flex">
-        <InvestedValue />
+      <Grid item xs={12} md={4} lg={4} className="flex">
+        <InvestedValue items={data.investedValue} />
       </Grid>
-      <Grid item xs={12} md={4} lg={3}>
-        <ActiveClosed />
+      <Grid item xs={12} md={4} lg={4}>
+        <ActiveClosed items={data.activeClosed} />
       </Grid>
-      <Grid item xs={12} md={4} lg={3}>
-        <Portfolio items={data.portfolio.items} />
+      <Grid item xs={12} md={4} lg={4}>
+        <Portfolio items={data.portfolio} />
+      </Grid>
+      <Grid item xs={12} md={12} lg={12}>
+        <Typography variant="h6" gutterBottom>
+          Investments
+        </Typography>
+        <Grid container spacing={2}>
+          {data.investments.map((investment) => (
+            <Grid item key={investment.id} xs={12} sm={6} md={4} lg={4}>
+              <InvestmentCard
+                investment={investment} 
+                onClose={() => handleCloseInvestment(investment.id)} 
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
     </Grid>
   );

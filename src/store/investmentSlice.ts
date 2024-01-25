@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { fetchInvestments } from '../api/api';
+import { fetchInvestments,  } from '../api/api';
 import { IInvestment } from '../interfaces/IInvestment.interface';
 
 interface InvestmentState {
@@ -10,12 +10,10 @@ interface InvestmentState {
 
 const initialState: InvestmentState = {
   investments: {
-    portfolio: {
-      items: [],
-    },
-    activeClosed: {
-      items: [],
-    },
+    investedValue: [],
+    portfolio: [],
+    activeClosed: [],
+    investments: []
   },
   loading: false,
   error: null,
@@ -24,6 +22,19 @@ const initialState: InvestmentState = {
 export const fetchInvestmentsThunk = createAsyncThunk(
   'investments/fetchInvestments',
   async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetchInvestments();
+
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const closeInvestmentStatusThunk = createAsyncThunk(
+  'investments/toggleInvestmentStatus',
+  async (id: number, { rejectWithValue }) => {
     try {
       const response = await fetchInvestments();
 

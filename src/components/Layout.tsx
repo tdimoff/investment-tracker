@@ -1,17 +1,20 @@
 import SideNav from "./SideNav";
+import { Box, Container } from "@mui/material";
 
 interface ILayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Layout = ({ children }: ILayoutProps) => {
   return (
-    <div className="flex min-h-screen">
+    <>
       <SideNav />
-      <div className="flex flex-col flex-1">
-        {children}
-      </div>
-    </div>
+      <Container>
+        <Box display="flex" justifyContent="flex-end" p={2}>
+          {children}
+        </Box>
+      </Container>
+    </>
   );
 };
 

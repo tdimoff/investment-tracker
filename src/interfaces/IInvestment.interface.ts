@@ -3,20 +3,32 @@ export interface IPortfolioItem {
   value: number;
 }
 
-export interface IPortfolio {
-  items: IPortfolioItem[];
-}
-
 export interface IActiveClosedItem {
   name: string;
-  y: number;
+  value: number;
 }
 
 export interface IActiveClosed {
   items: IActiveClosedItem[];
 }
 
+export interface IInvestmentItem {
+  id: number;
+  name: string;
+  value: number;
+  type: string;
+  status: string;
+  date: string;
+}
+
+export interface IInvestedValueItem {
+  period: string;
+  value: number;
+}
+
 export interface IInvestment {
-  portfolio: IPortfolio;
-  activeClosed: IActiveClosed;
+  investedValue: IInvestedValueItem[];
+  portfolio: IPortfolioItem[];
+  activeClosed: IActiveClosedItem[];
+  investments: IInvestmentItem[];
 }

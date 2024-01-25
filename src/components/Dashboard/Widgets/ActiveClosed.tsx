@@ -1,8 +1,13 @@
+import { IActiveClosedItem } from "@/src/interfaces/IInvestment.interface";
 import { Paper, Typography } from "@mui/material";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const ActiveClosed = () => {
+interface IActiveClosedProps {
+  items: IActiveClosedItem[];
+}
+
+const ActiveClosed = ({ items }: IActiveClosedProps) => {
   const options = {
     chart: {
       type: "column",
@@ -14,26 +19,17 @@ const ActiveClosed = () => {
       {
         name: "Investments",
         colorByPoint: true,
-        data: [
-          {
-            name: "Active",
-            y: 5,
-          },
-          {
-            name: "Closed",
-            y: 2,
-          },
-        ],
+        data: items.map((item) => ({
+          name: item.name || 'a',
+          y: item.value,
+        })),
       },
     ],
   };
 
   return (
-    <Paper>
-      <Typography variant="h2">
-        Number of active/closed investments
-        <HighchartsReact highcharts={Highcharts} options={options} />
-      </Typography>
+    <Paper elevation={3} className="p-4">
+      <HighchartsReact highcharts={Highcharts} options={options} />
     </Paper>
   );
 };
