@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const websiteRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 export const validationSchema = yup.object().shape({
   firstName: yup
@@ -11,8 +11,8 @@ export const validationSchema = yup.object().shape({
     .required('Last name is required'),
   email: yup
     .string()
-    .email()
-    .required('Email is required'),
+    .required('Email is required')
+    .matches(emailRegex, 'Invalid email'),
   password: yup
     .string()
     .min(8)

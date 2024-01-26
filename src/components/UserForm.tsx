@@ -5,18 +5,23 @@ import { validationSchema } from "@/src/schemas/user.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/src/store';
-import { updateUserDetailsThunk } from '@/src/store/userSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/src/store";
+import { updateUserDetailsThunk } from "@/src/store/userSlice";
 
 interface UserFormProps {
   user: IUser;
 }
 
 const UserForm: React.FC<UserFormProps> = () => {
-  const user = useSelector((state: RootState) => state.user.details)
+  const user = useSelector((state: RootState) => state.user.details);
   const dispatch = useDispatch<AppDispatch>();
-  const { register, handleSubmit, reset } = useForm<IUser>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IUser>({
     mode: "all",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -24,12 +29,12 @@ const UserForm: React.FC<UserFormProps> = () => {
       lastName: user.lastName,
       email: user.email,
       password: user.password,
-      age: user.age
+      age: user.age,
     },
   });
 
   useEffect(() => {
-    reset(user)
+    reset(user);
   }, [user]);
 
   const onSubmit = (data: IUser) => {
@@ -48,6 +53,8 @@ const UserForm: React.FC<UserFormProps> = () => {
             shrink: true,
           }}
           className="my-4"
+          error={!!errors.firstName}
+          helperText={errors.firstName ? errors.firstName.message : ''}
         />
         <TextField
           {...register("lastName")}
@@ -58,6 +65,8 @@ const UserForm: React.FC<UserFormProps> = () => {
             shrink: true,
           }}
           className="my-4"
+          error={!!errors.lastName}
+          helperText={errors.lastName ? errors.lastName.message : ''}
         />
         <TextField
           {...register("age")}
@@ -69,6 +78,8 @@ const UserForm: React.FC<UserFormProps> = () => {
             shrink: true,
           }}
           className="my-4"
+          error={!!errors.age}
+          helperText={errors.age ? errors.age.message : ''}
         />
         <TextField
           {...register("email")}
@@ -79,6 +90,8 @@ const UserForm: React.FC<UserFormProps> = () => {
             shrink: true,
           }}
           className="my-4"
+          error={!!errors.email}
+          helperText={errors.email ? errors.email.message : ''}
         />
         <TextField
           {...register("password")}
@@ -90,6 +103,8 @@ const UserForm: React.FC<UserFormProps> = () => {
             shrink: true,
           }}
           className="my-4"
+          error={!!errors.password}
+          helperText={errors.password ? errors.password.message : ''}
         />
         <Button
           type="submit"
