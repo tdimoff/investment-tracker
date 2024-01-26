@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchInvestments, closeInvestment } from "../api/api";
+import { fetchInvestments, closeInvestment, createInvestment } from "../api/api";
 import {
   IInvestment,
   IInvestmentItem,
@@ -48,14 +48,23 @@ export const closeInvestmentStatusThunk = createAsyncThunk(
   }
 );
 
+export const createInvestmentThunk = createAsyncThunk(
+  "investments/createInvestment",
+  async (investment: IInvestmentItem, { rejectWithValue }) => {
+    try {
+      const response = await createInvestment(investment);
+
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const investmentsSlice = createSlice({
   name: "investments",
   initialState,
-  reducers: {
-    // addInvestment: (state, action: PayloadAction<any>) => {
-    //   state.investments.push(action.payload);
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchInvestmentsThunk.pending, (state) => {
@@ -85,5 +94,4 @@ export const investmentsSlice = createSlice({
   },
 });
 
-// export const { addInvestment } = investmentsSlice.actions;
 export default investmentsSlice.reducer;

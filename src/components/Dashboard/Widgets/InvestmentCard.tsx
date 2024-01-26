@@ -29,7 +29,7 @@ const InvestmentCard = ({ investment, onClose }: IInvestmentCardProps) => {
       <CardActions className="flex flex-col items-center text-center">
         <Button
           size="small"
-          onClick={() => onClose(investment.id)}
+          onClick={() => onClose(investment.id as number)}
           disabled={investment.status === "closed"}
           variant="contained"
           className="bg-red-400 hover:bg-red-800 mb-4"

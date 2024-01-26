@@ -13,7 +13,7 @@ export interface IActiveClosed {
 }
 
 export interface IInvestmentItem {
-  id: number;
+  id?: number;
   name: string;
   value: number;
   type: string;

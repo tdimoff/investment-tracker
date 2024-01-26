@@ -12,3 +12,5 @@ export const fetchUser = () => api.get("/settings");
 export const updateUser = (user: IUser) => api.put("/settings", user);
 export const closeInvestment = (investment: IInvestmentItem) =>
   api.put(`/investments/${investment.id}/close`, investment);
+export const createInvestment = (investment: IInvestmentItem) =>
+  api.post("/investments", investment);
