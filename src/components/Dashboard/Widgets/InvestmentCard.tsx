@@ -32,7 +32,7 @@ const InvestmentCard = ({ investment, onClose }: IInvestmentCardProps) => {
           onClick={() => onClose(investment.id)}
           disabled={investment.status === "closed"}
           variant="contained"
-          className="bg-red-400 hover:bg-red-800"
+          className="bg-red-400 hover:bg-red-800 mb-4"
         >
           Close Investment
         </Button>
