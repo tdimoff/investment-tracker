@@ -50,10 +50,10 @@ export const closeInvestmentStatusThunk = createAsyncThunk(
 
 export const createInvestmentThunk = createAsyncThunk(
   "investments/createInvestment",
-  async (investment: IInvestmentItem, { rejectWithValue }) => {
+  async (investment: IInvestmentItem, { rejectWithValue, dispatch }) => {
     try {
       const response = await createInvestment(investment);
-
+      dispatch(fetchInvestmentsThunk());
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data);

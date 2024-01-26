@@ -59,7 +59,7 @@ const InvestmentDialogForm = ({
               InputLabelProps={{
                 shrink: true,
               }}
-              className="my-4"
+              className="my-4 w-[25rem]"
               error={!!errors.name}
               helperText={errors.name ? errors.name.message : ""}
             />
