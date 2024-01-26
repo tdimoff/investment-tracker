@@ -14,7 +14,7 @@ interface IInvestmentCardProps {
 const InvestmentCard = ({ investment, onClose }: IInvestmentCardProps) => {
   return (
     <Card variant="outlined" elevation={3}>
-      <CardContent>
+      <CardContent className="flex flex-col items-center text-center">
         <Typography variant="h5" component="div">
           {investment.name}
         </Typography>
@@ -26,7 +26,7 @@ const InvestmentCard = ({ investment, onClose }: IInvestmentCardProps) => {
           Value: {investment.value}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className="flex flex-col items-center text-center">
         <Button
           size="small"
           onClick={() => onClose(investment.id)}
