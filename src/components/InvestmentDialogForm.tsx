@@ -23,7 +23,11 @@ const InvestmentDialogForm = ({
   open,
   onClose,
 }: IInvestmentDialogFormProps) => {
-  const { register, handleSubmit } = useForm<IInvestmentItem>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IInvestmentItem>({
     mode: "all",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -37,7 +41,8 @@ const InvestmentDialogForm = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = (data: IInvestmentItem) => {
-    dispatch(createInvestmentThunk(data));
+    dispatch(createInvestmentThunk(data))
+      .then(onClose)
   };
 
   return (
@@ -55,6 +60,8 @@ const InvestmentDialogForm = ({
                 shrink: true,
               }}
               className="my-4"
+              error={!!errors.name}
+              helperText={errors.name ? errors.name.message : ""}
             />
             <TextField
               {...register("type")}
@@ -65,6 +72,8 @@ const InvestmentDialogForm = ({
                 shrink: true,
               }}
               className="my-4"
+              error={!!errors.type}
+              helperText={errors.type ? errors.type.message : ""}
             />
             <TextField
               {...register("value")}
@@ -75,6 +84,8 @@ const InvestmentDialogForm = ({
                 shrink: true,
               }}
               className="my-4"
+              error={!!errors.value}
+              helperText={errors.value ? errors.value.message : ""}
             />
             <TextField
               {...register("date")}
@@ -85,6 +96,8 @@ const InvestmentDialogForm = ({
                 shrink: true,
               }}
               className="my-4"
+              error={!!errors.date}
+              helperText={errors.date ? errors.date.message : ""}
             />
             <TextField
               {...register("status")}
@@ -95,16 +108,16 @@ const InvestmentDialogForm = ({
                 shrink: true,
               }}
               className="my-4"
+              error={!!errors.status}
+              helperText={errors.status ? errors.status.message : ""}
             />
           </div>
+          <DialogActions>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button type="submit">Save</Button>
+          </DialogActions>
         </form>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="submit" form="investment-form">
-          Save
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };
