@@ -7,6 +7,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import { IInvestmentItem } from "../interfaces/IInvestment.interface";
@@ -41,8 +46,7 @@ const InvestmentDialogForm = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = (data: IInvestmentItem) => {
-    dispatch(createInvestmentThunk(data))
-      .then(onClose)
+    dispatch(createInvestmentThunk(data)).then(onClose);
   };
 
   return (
@@ -63,18 +67,25 @@ const InvestmentDialogForm = ({
               error={!!errors.name}
               helperText={errors.name ? errors.name.message : ""}
             />
-            <TextField
-              {...register("type")}
-              label="Type"
-              variant="outlined"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              className="my-4"
-              error={!!errors.type}
-              helperText={errors.type ? errors.type.message : ""}
-            />
+            <FormControl className="my-4 w-[25rem]" error={!!errors.type}>
+              <InputLabel id="type-label">Type</InputLabel>
+              <Select
+                {...register("type")}
+                labelId="type-label"
+                label="Type"
+                inputProps={{
+                  id: "type",
+                }}
+              >
+                <MenuItem value="fixed-income">Fixed Income</MenuItem>
+                <MenuItem value="stock">Stock</MenuItem>
+                <MenuItem value="commodity">Commodity</MenuItem>
+                <MenuItem value="crypto">Crypto</MenuItem>
+              </Select>
+              {errors.type && (
+                <FormHelperText>{errors.type.message}</FormHelperText>
+              )}
+            </FormControl>
             <TextField
               {...register("value")}
               label="Value"
@@ -99,18 +110,23 @@ const InvestmentDialogForm = ({
               error={!!errors.date}
               helperText={errors.date ? errors.date.message : ""}
             />
-            <TextField
-              {...register("status")}
-              label="Status"
-              variant="outlined"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              className="my-4"
-              error={!!errors.status}
-              helperText={errors.status ? errors.status.message : ""}
-            />
+            <FormControl className="my-4 w-[25rem]" error={!!errors.type}>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                {...register("status")}
+                labelId="status-label"
+                label="Status"
+                inputProps={{
+                  id: "status",
+                }}
+              >
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="closed">Closed</MenuItem>
+              </Select>
+              {errors.status && (
+                <FormHelperText>{errors.status.message}</FormHelperText>
+              )}
+            </FormControl>
           </div>
           <DialogActions>
             <Button onClick={onClose}>Cancel</Button>
