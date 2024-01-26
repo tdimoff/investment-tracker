@@ -75,7 +75,7 @@ export default function handler(
       {
         id: 1,
         name: "BTC",
-        value: 0.5,
+        value: 55000,
         type: "crypto",
         status: "active",
         date: "2021-07-01",
@@ -83,7 +83,7 @@ export default function handler(
       {
         id: 2,
         name: "ETH",
-        value: 0.5,
+        value: 10000,
         type: "crypto",
         status: "active",
         date: "2021-07-01",
@@ -91,7 +91,7 @@ export default function handler(
       {
         id: 3,
         name: "AAPL",
-        value: 0.3,
+        value: 15000,
         type: "stock",
         status: "active",
         date: "2022-01-15",
@@ -99,7 +99,7 @@ export default function handler(
       {
         id: 4,
         name: "TSLA",
-        value: 0.2,
+        value: 15000,
         type: "stock",
         status: "active",
         date: "2022-02-20",
@@ -107,7 +107,7 @@ export default function handler(
       {
         id: 5,
         name: "GOOGL",
-        value: 0.15,
+        value: 15000,
         type: "stock",
         status: "active",
         date: "2022-03-05",
@@ -115,7 +115,7 @@ export default function handler(
       {
         id: 6,
         name: "AMZN",
-        value: 0.25,
+        value: 15000,
         type: "stock",
         status: "closed",
         date: "2021-12-12",
@@ -123,7 +123,7 @@ export default function handler(
       {
         id: 10,
         name: "Silver",
-        value: 0.5,
+        value: 15000,
         type: "commodity",
         status: "closed",
         date: "2021-09-09",
