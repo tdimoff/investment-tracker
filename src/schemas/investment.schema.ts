@@ -8,7 +8,10 @@ export const validationSchema = yup.object().shape({
       ["fixed-income", "stock", "commodity", "crypto"],
       "Type must be fixed-income, stock, commodity or crypto"
     ),
-  value: yup.number().required("Value is required"),
+  value: yup
+    .number()
+    .typeError("Value must be a number")
+    .required("Value is required"),
   date: yup.string().required("Date is required"),
   status: yup
     .string()
